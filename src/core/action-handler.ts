@@ -1,6 +1,6 @@
 process.env.RUN_MODE = 'action'
 
-import * as core from '@actions/core';
+import * as core from '@actions/core'
 
 import { exitActionOnFail, getAllGitHubContext, handleError } from '../github'
 import { getInputs } from './inputs'
@@ -27,10 +27,20 @@ export async function runAction(): Promise<void> {
     const tableRows = [
       ['Status', 'Test Name', 'Duration', 'Message'],
       ...report.results.tests.map(test => {
-        const emoji = test.status === 'passed' ? '✅' : 
-                     test.status === 'failed' ? '❌' : 
-                     test.status === 'skipped' ? '⏭️' : '❔';
-        return [`${emoji} ${test.status}`, test.name, `${test.duration}ms`, test.message || '-']
+        const emoji =
+          test.status === 'passed'
+            ? '✅'
+            : test.status === 'failed'
+              ? '❌'
+              : test.status === 'skipped'
+                ? '⏭️'
+                : '❔'
+        return [
+          `${emoji} ${test.status}`,
+          test.name,
+          `${test.duration}ms`,
+          test.message || '-'
+        ]
       })
     ]
 
@@ -38,7 +48,7 @@ export async function runAction(): Promise<void> {
       .addHeading('Test Results')
       .addRaw(summaryStats)
       .addTable(tableRows)
-      .write();
+      .write()
 
     await handleViewsAndComments(inputs, report)
     handleAnnotations(inputs, report)
