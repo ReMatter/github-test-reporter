@@ -372,7 +372,7 @@ async function processPrComment(
           prCommentMessage = ''
         }
       } else {
-        console.log('Using provided string as the PR comment message')
+        console.error('Using provided string as the PR comment message')
       }
     }
 

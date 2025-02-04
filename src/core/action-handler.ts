@@ -12,6 +12,8 @@ export async function runAction(): Promise<void> {
 
     const report = await prepareReport(inputs, githubContext)
 
+    console.log(report)
+
     await handleViewsAndComments(inputs, report)
     handleAnnotations(inputs, report)
 
