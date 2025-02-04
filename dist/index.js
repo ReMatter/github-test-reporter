@@ -43418,7 +43418,7 @@ async function runAction() {
             .addHeading('Test Results')
             .addRaw(summaryStats)
             .addTable(tableRows)
-            .write();
+            .write({ overwrite: true });
         await (0, handler_1.handleViewsAndComments)(inputs, report);
         (0, handler_1.handleAnnotations)(inputs, report);
         if (inputs.exitOnFail) {

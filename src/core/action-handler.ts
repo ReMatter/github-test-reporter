@@ -48,7 +48,7 @@ export async function runAction(): Promise<void> {
       .addHeading('Test Results')
       .addRaw(summaryStats)
       .addTable(tableRows)
-      .write()
+      .write({ overwrite: true })
 
     await handleViewsAndComments(inputs, report)
     handleAnnotations(inputs, report)
