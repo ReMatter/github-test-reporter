@@ -25,23 +25,32 @@ export async function runAction(): Promise<void> {
 
     // Create table rows for test results
     const tableRows = [
-      ['Status', 'Test Name', 'Duration', 'Message'],
-      ...report.results.tests.map(test => {
-        const emoji =
-          test.status === 'passed'
-            ? '✅'
-            : test.status === 'failed'
-              ? '❌'
-              : test.status === 'skipped'
-                ? '⏭️'
-                : '❔'
-        return [
-          `${emoji} ${test.status}`,
-          test.name,
-          `${test.duration}ms`,
-          test.message || '-'
-        ]
-      })
+      ['Status', 'Test Name', 'Duration', 'Flaky', 'Message'],
+      ...report.results.tests
+        .filter(t => t.status !== 'passed')
+        .map(test => {
+          let emoji = '❔'
+
+          switch (test.status) {
+            case 'passed':
+              emoji = '✅'
+              break
+            case 'failed':
+              emoji = '❌'
+              break
+            case 'skipped':
+              emoji = '⏭️'
+              break
+          }
+
+          return [
+            `${emoji}`,
+            test.name,
+            test.flaky ? 'Yes' : 'No',
+            `${test.duration}ms`,
+            test.message || '-'
+          ]
+        })
     ]
 
     await core.summary
